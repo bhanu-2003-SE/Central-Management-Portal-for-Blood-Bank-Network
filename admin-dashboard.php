@@ -42,7 +42,6 @@ try {
         .logout-btn { background: rgba(255, 255, 255, 0.15) !important; color: white !important; margin-top: 15px; justify-content: flex-start !important; }
         .logout-btn:hover { background: rgba(255, 255, 255, 0.25) !important; transform: translateX(0) !important; }
 
-        /* රතු පාටින් දිලිසෙන තිත් (Pulsing Red Dot) සඳහා ස්ටයිල් එක */
         .pulsing-dot {
             width: 10px;
             height: 10px;
@@ -101,7 +100,6 @@ try {
             max-width: 900px; margin: 20px auto; background: #f8fafc; padding: 25px; border-radius: 12px; border: 1px solid #e2e8f0; position: relative;
         }
 
-        /* පින්තූරයේ ඇති පරිදි ඊතල (Arrows) සහිත සම්පූර්ණ Scrollbar Design එක */
         ::-webkit-scrollbar { width: 14px; }
         ::-webkit-scrollbar-track { background: #f8fafc; border-left: 1px solid #e2e8f0; }
         ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 7px; border: 3px solid #f8fafc; }
@@ -635,7 +633,8 @@ try {
                     </a>
                 </div>
 
-                <form method="POST" action="" style="display: flex; gap: 20px; margin-bottom: 25px; align-items: flex-end; flex-wrap: wrap;">
+                <!-- FORM ACTION UPDATED HERE TO RETAIN TAB STATE -->
+                <form method="POST" action="admin-dashboard.php?tab=reports" style="display: flex; gap: 20px; margin-bottom: 25px; align-items: flex-end; flex-wrap: wrap;">
                     <div class="form-group" style="flex: 1; min-width: 250px; margin-bottom: 0;">
                         <label>Select Report Type</label>
                         <select name="report_type" id="reportType" onchange="checkReportSelection()" style="width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 10px; outline: none;">
@@ -884,15 +883,13 @@ try {
             } else if (tabParam === 'camps') {
                 const campBtn = document.querySelector("a[onclick*='tab-camps']");
                 showTab('tab-camps', campBtn);
+            } else if (tabParam === 'reports' || <?php echo isset($_POST['generate_report']) ? 'true' : 'false'; ?>) {
+                const reportBtn = document.querySelector("a[onclick*='tab-reports']");
+                showTab('tab-reports', reportBtn);
             } else {
-                <?php if (isset($_POST['generate_report'])): ?>
-                    const reportBtn = document.querySelector("a[onclick*='tab-reports']");
-                    showTab('tab-reports', reportBtn);
-                <?php else: ?>
-                    const defaultTab = 'tab-dashboard';
-                    const defaultLink = document.querySelector(`a[onclick*='${defaultTab}']`);
-                    showTab(defaultTab, defaultLink);
-                <?php endif; ?>
+                const defaultTab = 'tab-dashboard';
+                const defaultLink = document.querySelector(`a[onclick*='${defaultTab}']`);
+                showTab(defaultTab, defaultLink);
             }
         });
     </script>
